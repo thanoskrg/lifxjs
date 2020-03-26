@@ -1,5 +1,9 @@
 require('dotenv').config();
 
+function prettyLog (object, asJson = false) {
+  console.log(asJson ? JSON.stringify(object, null, 2) : object);
+}
+
 (async function () {
   const Lifx = require('./lib');
 
@@ -9,13 +13,42 @@ require('dotenv').config();
 
   lifx.debug();
 
-  console.log(lifx.lights);
+  /**
+   *
+   * LIFX Lights
+   *
+   */
+
+  /* get specific light */
+  // const all = await lifx.lights.get();
+  // console.log(all);
+
+  const light = await lifx.lights.get('d073d5031409');
+  console.log(light);
+
+  // const toggled = await light.toggle();
+  // console.log('toggled', toggled);
+
+
+  // prettyLog(led);
+
+  /* get specific group lights */
+  // const office = await lifx.lights.getGroup('9586957cca3ec7a5b7b6cd3c5a6b576e');
+  // prettyLog(office);
+
+  /* get specific location lights */
+  // const home = await lifx.lights.getLocation('fb0316a80c3bda267ddff899b3f504bb');
+  // prettyLog(home);
+
+  /**
+   *
+   * LIFX Light
+   *
+   */
 
   /* Lights samples */
-  // ledStripId = ;
-
-  const led = await lifx.lights.get('d073d5410d9a');
-  led.on();
+  // const led = await lifx.lights.get('d073d5410d9a');
+  // led.on();
 
 
   // if (ledStrip.power === 'on') {
