@@ -1,9 +1,5 @@
 require('dotenv').config();
 
-function prettyLog (object, asJson = false) {
-  console.log(asJson ? JSON.stringify(object, null, 2) : object);
-}
-
 (async function () {
   const Lifx = require('./lib');
 
@@ -19,18 +15,13 @@ function prettyLog (object, asJson = false) {
    *
    */
 
-  /* get specific light */
+  /* get all ligts */
   // const all = await lifx.lights.get();
   // console.log(all);
 
-  const light = await lifx.lights.get('d073d5031409');
-  console.log(light);
-
-  // const toggled = await light.toggle();
-  // console.log('toggled', toggled);
-
-
-  // prettyLog(led);
+  /* get specific light */
+  const light = await lifx.lights.get('d073d5410d9a');
+  console.log(light.label, light.power);
 
   /* get specific group lights */
   // const office = await lifx.lights.getGroup('9586957cca3ec7a5b7b6cd3c5a6b576e');
@@ -46,24 +37,27 @@ function prettyLog (object, asJson = false) {
    *
    */
 
-  /* Lights samples */
-  // const led = await lifx.lights.get('d073d5410d9a');
-  // led.on();
+  /* toggle light */
+  // const toggled = await light.toggle();
+  // console.log('toggled', toggled.power);
 
+  /* toggle lights */
+  // console.log(office);
+  // const toggled0 = await office[0].toggle();
+  // console.log(toggled0.power);
 
-  // if (ledStrip.power === 'on') {
-  //   const res = await ledStrip.off();
-  //   console.log('turned off', res);
-  //   // setTimeout(() => ledStrip.on(), 3000);
-  // }
-  // if (ledStrip.power === 'off') {
-  //   const res = await ledStrip.on();
-  //   console.log('turned on', res);
-  //   // setTimeout(() => ledStrip.off(), 3000);
-  // }
-  // ledStrip.off();
-  // const ledStrip = await lifx.lights.get('d073d5410d9');
-  // console.log('ledStrip', ledStrip);
-  // const lights = await lifx.lights.get();
-  // console.log('lights', lights);
+  // const toggled1 = await office[1].toggle();
+  // console.log(toggled1.power);
+
+  // office.forEach(light => light.toggle());
+
+  /* set color */
+  // const lightUpdated = await light.setColor({
+  //   hue: 273.99771114671546,
+  //   saturation: 1,
+  //   brightness: 1
+  // });
+  // console.log(lightUpdated);
+  // await light.setColor({ kelvin: 3500 });
+
 }())
