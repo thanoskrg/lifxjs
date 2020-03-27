@@ -1,0 +1,304 @@
+const superagent = require('superagent');
+
+module.exports = (function () {
+
+  const LIFX_API = {
+    BASE_URL: "https://api.lifx.com",
+    VERSION: 1,
+  };
+
+  function endpoint (resource = '') {
+    return `${LIFX_API.BASE_URL}/v${LIFX_API.VERSION}${resource}`;
+  }
+
+  let http;
+
+  const HttpClient = (function () {
+
+    let _headers;
+
+    function request (method, url, data = null) {
+      return new Promise(async (resolve) => {
+        try {
+          await superagent(method, url)
+            .set(_headers)
+            .send(data)
+            .then(res => {
+              if (res.ok) {
+                resolve(res.body);
+              }
+            })
+            .catch(err => {
+              /**
+               *
+               * TODO: Handle all cases
+               * https://lifx.readme.io/docs/errors
+               *
+               */
+              if (err.status === 400) {
+                const { error } = err.response.body;
+                resolve({ error });
+              } else if (err.status > 400 && err.status < 500) {
+                resolve({ error: err.message });
+              } else {
+                throw err;
+              }
+            });
+        } catch (err) {
+          console.log('Unexpected Error:', err.message);
+          resolve();
+        }
+      })
+    }
+
+    function HttpClient ({ headers = {} }) {
+      _headers = headers;
+    }
+
+    HttpClient.prototype.get = async function (resource) {
+      return await request('GET', resource);
+    }
+
+    HttpClient.prototype.put = async function (resource, data) {
+      return await request('PUT', resource, data);
+    }
+
+    HttpClient.prototype.post = async function (resource, data) {
+      return await request('POST', resource, data);
+    }
+
+    return HttpClient;
+
+  }());
+
+  const LifxGet = (function () {
+
+    function LifxGet () {}
+
+    LifxGet.prototype.lights = async function () {
+      return http.get(endpoint('/lights/all'));
+    }
+
+    LifxGet.prototype.scenes = async function () {
+      return http.get(endpoint('/scenes'));
+    }
+
+    return LifxGet;
+
+  }());
+
+  const LifxColor = (function () {
+
+    function LifxColor () {}
+
+    LifxColor.prototype.all = async function (config, wakeup) {
+      return await set_color_state('all', config, wakeup);
+    }
+
+    LifxColor.prototype.light = async function (id, config, wakeup) {
+      return await set_color_state('id:' + id, config, wakeup);
+    }
+
+    LifxColor.prototype.group = async function (id, config, wakeup) {
+      return await set_color_state('group_id:' + id, config, wakeup);
+    }
+
+    LifxColor.prototype.location = async function (id, config, wakeup) {
+      return await set_color_state('location_id:' + id, config, wakeup);
+    }
+
+    function get_color_selector ({
+      hex,
+      rgb,
+      hue,
+      saturation,
+      kelvin,
+      brightness
+    }) {
+      /**
+       * Based on LIFX HTTP API documentation
+       * "hex" and "rgb" cannot be combined with
+       * "hue", "saturation", "kelvin" and "brightness"
+       */
+      let colorSelector = [];
+      if (hex) {
+        colorSelector.push(String(hex).toUpperCase());
+      } else if (rgb) {
+        colorSelector.push(String(rgb).toLowerCase());
+      } else {
+        if (hue) {
+          colorSelector.push('hue:' + String(hue));
+        }
+        if (saturation) {
+          colorSelector.push('saturation:' + String(saturation));
+        }
+        if (kelvin) {
+          colorSelector.push('kelvin:' + String(kelvin));
+        }
+        if (brightness) {
+          colorSelector.push('brightness:' + String(brightness));
+        }
+        colorSelector = colorSelector.join(' ');
+      }
+      return colorSelector;
+    }
+
+    async function set_color_state (selector, color, wakeup = true) {
+      const data = {
+        color: get_color_selector(color)
+      };
+      if (wakeup) data['power'] = 'on';
+      return await http.put(
+        endpoint(`/lights/${selector}/state`),
+        data
+      );
+    }
+
+    return LifxColor;
+
+  }());
+
+  const LifxPower = (function () {
+
+    function LifxPower () {}
+
+    LifxPower.prototype.all = async function (power) {
+      return await set_power_state('all', power);
+    }
+
+    LifxPower.prototype.light = async function (id, power) {
+      return await set_power_state('id:' + id, power);
+    }
+
+    LifxPower.prototype.group = async function (id, power) {
+      return await set_power_state('group_id:' + id, power);
+    }
+
+    LifxPower.prototype.location = async function (id, power) {
+      return await set_power_state('location_id:' + id, power);
+    }
+
+    async function set_power_state (selector, power) {
+      return await http.put(
+        endpoint(`/lights/${selector}/state`),
+        { power }
+      );
+    }
+
+    return LifxPower;
+
+  }());
+
+  const LifxScene = (function () {
+
+    function LifxScene () {}
+
+    LifxScene.prototype.activate = async function (uuid) {
+      return await http.put(endpoint(`/scenes/scene_id:${uuid}/activate`));
+    }
+
+    return LifxScene;
+
+  }());
+
+  const Lifx = (function () {
+
+    let $private = {};
+    let __$$id__ = 0;
+    function _ (_this, store = null) {
+      return store
+        ? $private[_this.__$$id__] = store
+        : $private[_this.__$$id__]
+      ;
+    }
+
+    function Lifx () {
+      this.__$$id__ = __$$id__++;
+      _(this, {});
+    }
+
+    Lifx.prototype.init = function (config) {
+      if (config && config.appToken) {
+        http = new HttpClient({
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${config.appToken}`
+          }
+        });
+        _(this, {
+          get: new LifxGet(),
+          power: new LifxPower(),
+          color: new LifxColor(),
+          scene: new LifxScene()
+        });
+      } else {
+        console.warn('Missing "appToken" to initialize Lifx.');
+      }
+    }
+
+    Object.defineProperty(Lifx.prototype, "get", {
+      get() {
+        const lifxGet = _(this).get;
+        if (!lifxGet) {
+          console.warn('Call init() first to use "get".');
+          return {
+            lights() {},
+            scenes() {}
+          }
+        }
+        return lifxGet;
+      }
+    });
+
+    Object.defineProperty(Lifx.prototype, "power", {
+      get() {
+        const lifxPower = _(this).power;
+        if (!lifxPower) {
+          console.warn('Call init() first to use "power".');
+          return {
+            all() {},
+            light() {},
+            group() {},
+            location() {}
+          }
+        }
+        return lifxPower;
+      }
+    });
+
+    Object.defineProperty(Lifx.prototype, "color", {
+      get() {
+        const lifxColor = _(this).color;
+        if (!lifxColor) {
+          console.warn('Call init() first to use "color".');
+          return {
+            all() {},
+            light() {},
+            group() {},
+            location() {}
+          }
+        }
+        return lifxColor;
+      }
+    });
+
+    Object.defineProperty(Lifx.prototype, "scene", {
+      get() {
+        const lifxScene = _(this).scene;
+        if (!lifxScene) {
+          console.warn('Call init() first to use "scene".');
+          return {
+            activate() {}
+          }
+        }
+        return lifxScene;
+      }
+    });
+
+    return Lifx;
+
+  }());
+
+  return Lifx;
+
+}());
