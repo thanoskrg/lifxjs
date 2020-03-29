@@ -11,26 +11,34 @@ COLOR_KELVIN = { kelvin: 3500, brightness: 1 };
 
 (async function () {
 
-  // import Lifx from 'lifx';
+  // import Lifx from 'lifxjs';
+  const Lifx = require('./');
 
-  // const lifx = new Lifx();
+  const lifx = new Lifx();
 
-  // lifx.init({ appToken: process.env.APP_TOKEN });
+  lifx.init({ appToken: process.env.APP_TOKEN });
 
-  // console.log(await lifx.get.lights());
+  // /* List lights & scenes */
+  // console.log(await lifx.get.all());
+  // console.log(await lifx.get.light(OFFICE_LED_ID));
+  // console.log(await lifx.get.group(GROUP_ID));
+  // console.log(await lifx.get.location(LOCATION_ID));
   // console.log(await lifx.get.scenes());
 
+  // /* Power on/off */
   // console.log(await lifx.power.all('on'));
   // console.log(await lifx.power.light(OFFICE_LED_ID, 'off'));
   // console.log(await lifx.power.group(GROUP_ID, 'off'));
   // console.log(await lifx.power.location(LOCATION_ID, 'off'));
 
+  // /* change color */
   // console.log(await lifx.color.all({}));
   // console.log(await lifx.color.light(OFFICE_LED_ID, COLOR_KELVIN));
   // console.log(await lifx.color.light(OFFICE_BULB_ID, COLOR_HUE));
   // console.log(await lifx.color.group(GROUP_ID, COLOR_HUE));
   // console.log(await lifx.color.location(LOCATION_ID, COLOR_KELVIN));
 
+  // /* Activate scene */
   // console.log(await lifx.scene.activate(ERGO_SCENE_ID));
 
 }());

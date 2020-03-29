@@ -1,4 +1,4 @@
-declare module "lifx" {
+declare module "lifxjs" {
 
   export = Lifx;
 
@@ -15,7 +15,10 @@ declare module "lifx" {
   }
 
   interface LifxLibGet {
-    lights(): Promise<Array<LifxLight>>;
+    all(): Promise<Array<LifxLight>>;
+    light(id: string): Promise<Array<LifxLight>>;
+    group(id: string): Promise<Array<LifxLight>>;
+    location(id: string): Promise<Array<LifxLight>>;
     scenes(): Promise<Array<LifxScene>>;
   }
 
@@ -29,10 +32,10 @@ declare module "lifx" {
   interface LifxLibPowerResult extends Promise<LifxSetStateResponse> {}
 
   interface LifxLibColor {
-    all(config: LifxLibColorConfig): LifxLibColorResult;
-    light(id: string, config: LifxLibColorConfig): LifxLibColorResult;
-    group(id: string, config: LifxLibColorConfig): LifxLibColorResult;
-    location(id: string, config: LifxLibColorConfig): LifxLibColorResult;
+    all(config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
+    light(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
+    group(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
+    location(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
   }
 
   interface LifxLibColorConfig {

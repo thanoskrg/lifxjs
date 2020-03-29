@@ -75,8 +75,20 @@ module.exports = (function () {
 
     function LifxGet () {}
 
-    LifxGet.prototype.lights = async function () {
+    LifxGet.prototype.all = async function () {
       return http.get(endpoint('/lights/all'));
+    }
+
+    LifxGet.prototype.light = async function (id) {
+      return http.get(endpoint('/lights/id:' + id));
+    }
+
+    LifxGet.prototype.group = async function (id) {
+      return http.get(endpoint('/lights/group_id:' + id));
+    }
+
+    LifxGet.prototype.location = async function (id) {
+      return http.get(endpoint('/lights/location_id:' + id));
     }
 
     LifxGet.prototype.scenes = async function () {
@@ -242,7 +254,10 @@ module.exports = (function () {
         if (!lifxGet) {
           console.warn('Call init() first to use "get".');
           return {
-            lights() {},
+            all() {},
+            light() {},
+            group() {},
+            location() {},
             scenes() {}
           }
         }
