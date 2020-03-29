@@ -1,0 +1,20 @@
+{
+  "name": "lifxjs",
+  "version": "1.0.0",
+  "description": "JavaScript library for LIFX HTTP API",
+  "main": "lib/index.js",
+  "repository": "https://github.com/thanoskrg/lifxjs.git",
+  "author": "Thanos Karagiannis",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "superagent": "^5.2.2"
+  }
+}
