@@ -7,11 +7,16 @@ module.exports = (function () {
     VERSION:  1,
   };
 
+  const LIFX_API_PATH = {
+    LIGHTS: "/lights",
+    SCENES: "/scenes"
+  };
+
   const LIGHT_SELECTOR = {
-    ALL:         'all',
-    LIGHT_ID:    'id:',
-    GROUP_ID:    'group_id:',
-    LOCATION_ID: 'location_id:'
+    ALL:         "all",
+    LIGHT_ID:    "id:",
+    GROUP_ID:    "group_id:",
+    LOCATION_ID: "location_id:"
   };
 
   function endpoint (resource = '') {
@@ -25,35 +30,24 @@ module.exports = (function () {
     let _headers;
 
     function request (method, url, data = null) {
-      return new Promise(async (resolve) => {
+      return new Promise(resolve => {
         try {
-          await superagent(method, url)
+          superagent(method, url)
             .set(_headers)
             .send(data)
             .then(res => {
-              if (res.ok) {
-                resolve(res.body);
-              }
+              resolve(res.body)
             })
             .catch(err => {
-              /**
-               *
-               * TODO: Handle all cases
-               * https://lifx.readme.io/docs/errors
-               *
-               */
-              if (err.status === 400) {
-                const { error } = err.response.body;
-                resolve({ error });
-              } else if (err.status > 400 && err.status < 500) {
-                resolve({ error: err.message });
+              if (err && err.response && err.response.body) {
+                resolve(err.response.body);
               } else {
-                throw err;
+                resolve({ error: err.message });
               }
             });
         } catch (err) {
           console.log('Unexpected Error:', err.message);
-          resolve();
+          resolve({ error: err.message });
         }
       })
     }
@@ -80,8 +74,8 @@ module.exports = (function () {
 
   const LifxGet = (function () {
 
-    const GET_LIGHTS_URL = endpoint('/lights/');
-    const GET_SCENES_URL = endpoint('/scenes');
+    const GET_LIGHTS_URL = endpoint(LIFX_API_PATH.LIGHTS + '/');
+    const GET_SCENES_URL = endpoint(LIFX_API_PATH.SCENES);
 
     function LifxGet () {}
 
@@ -202,7 +196,7 @@ module.exports = (function () {
       };
       if (wakeup) data['power'] = 'on';
       return await http.put(
-        endpoint(`/lights/${selector}/state`),
+        endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`),
         data
       );
     }
@@ -233,7 +227,7 @@ module.exports = (function () {
 
     async function set_power_state (selector, power) {
       return await http.put(
-        endpoint(`/lights/${selector}/state`),
+        endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`),
         { power }
       );
     }
@@ -247,7 +241,7 @@ module.exports = (function () {
     function LifxScene () {}
 
     LifxScene.prototype.activate = async function (uuid) {
-      return await http.put(endpoint(`/scenes/scene_id:${uuid}/activate`));
+      return await http.put(endpoint(LIFX_API_PATH.SCENES + `/scene_id:${uuid}/activate`));
     }
 
     return LifxScene;

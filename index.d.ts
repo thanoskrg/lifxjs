@@ -1,7 +1,5 @@
 declare module "lifxjs" {
 
-  export = Lifx;
-
   class Lifx {
     init(config: LifxLibInit): void;
     get:   LifxLibGet;
@@ -167,4 +165,5 @@ declare module "lifxjs" {
 
   type LifxReachabilityStatus = "ok" | "timed_out" | "offline";
 
+  export default Lifx;
 }
