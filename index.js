@@ -4,7 +4,14 @@ module.exports = (function () {
 
   const LIFX_API = {
     BASE_URL: "https://api.lifx.com",
-    VERSION: 1,
+    VERSION:  1,
+  };
+
+  const LIGHT_SELECTOR = {
+    ALL:         'all',
+    LIGHT_ID:    'id:',
+    GROUP_ID:    'group_id:',
+    LOCATION_ID: 'location_id:'
   };
 
   function endpoint (resource = '') {
@@ -73,26 +80,37 @@ module.exports = (function () {
 
   const LifxGet = (function () {
 
+    const GET_LIGHTS_URL = endpoint('/lights/');
+    const GET_SCENES_URL = endpoint('/scenes');
+
     function LifxGet () {}
 
     LifxGet.prototype.all = async function () {
-      return http.get(endpoint('/lights/all'));
+      return http.get(
+        GET_LIGHTS_URL + LIGHT_SELECTOR.ALL
+      );
     }
 
     LifxGet.prototype.light = async function (id) {
-      return http.get(endpoint('/lights/id:' + id));
+      return http.get(
+        GET_LIGHTS_URL + LIGHT_SELECTOR.LIGHT_ID + id
+      );
     }
 
     LifxGet.prototype.group = async function (id) {
-      return http.get(endpoint('/lights/group_id:' + id));
+      return http.get(
+        GET_LIGHTS_URL + LIGHT_SELECTOR.GROUP_ID + id
+      );
     }
 
     LifxGet.prototype.location = async function (id) {
-      return http.get(endpoint('/lights/location_id:' + id));
+      return http.get(
+        GET_LIGHTS_URL + LIGHT_SELECTOR.LOCATION_ID + id
+      );
     }
 
     LifxGet.prototype.scenes = async function () {
-      return http.get(endpoint('/scenes'));
+      return http.get(GET_SCENES_URL);
     }
 
     return LifxGet;
@@ -103,20 +121,43 @@ module.exports = (function () {
 
     function LifxColor () {}
 
-    LifxColor.prototype.all = async function (config, wakeup) {
-      return await set_color_state('all', config, wakeup);
+    LifxColor.prototype.all = async function (
+      config,
+      wakeup
+    ) {
+      return await set_color_state(
+        LIGHT_SELECTOR.ALL, config, wakeup
+      );
     }
 
-    LifxColor.prototype.light = async function (id, config, wakeup) {
-      return await set_color_state('id:' + id, config, wakeup);
+    LifxColor.prototype.light = async function (
+      id,
+      config,
+      wakeup
+    ) {
+      return await set_color_state(
+        LIGHT_SELECTOR.LIGHT_ID + id, config, wakeup
+      );
     }
 
-    LifxColor.prototype.group = async function (id, config, wakeup) {
-      return await set_color_state('group_id:' + id, config, wakeup);
+    LifxColor.prototype.group = async function (
+      id,
+      config,
+      wakeup
+    ) {
+      return await set_color_state(
+        LIGHT_SELECTOR.GROUP_ID + id, config, wakeup
+      );
     }
 
-    LifxColor.prototype.location = async function (id, config, wakeup) {
-      return await set_color_state('location_id:' + id, config, wakeup);
+    LifxColor.prototype.location = async function (
+      id,
+      config,
+      wakeup
+    ) {
+      return await set_color_state(
+        LIGHT_SELECTOR.LOCATION_ID + id, config, wakeup
+      );
     }
 
     function get_color_selector ({
@@ -175,19 +216,19 @@ module.exports = (function () {
     function LifxPower () {}
 
     LifxPower.prototype.all = async function (power) {
-      return await set_power_state('all', power);
+      return await set_power_state(LIGHT_SELECTOR.ALL, power);
     }
 
     LifxPower.prototype.light = async function (id, power) {
-      return await set_power_state('id:' + id, power);
+      return await set_power_state(LIGHT_SELECTOR.LIGHT_ID + id, power);
     }
 
     LifxPower.prototype.group = async function (id, power) {
-      return await set_power_state('group_id:' + id, power);
+      return await set_power_state(LIGHT_SELECTOR.GROUP_ID + id, power);
     }
 
     LifxPower.prototype.location = async function (id, power) {
-      return await set_power_state('location_id:' + id, power);
+      return await set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, power);
     }
 
     async function set_power_state (selector, power) {
@@ -214,6 +255,10 @@ module.exports = (function () {
   }());
 
   const Lifx = (function () {
+
+    function getWarningMsgNotInitialized (name) {
+      return `Call init() first to use "${name}".`;
+    }
 
     let $private = {};
     let __$$id__ = 0;
@@ -252,7 +297,7 @@ module.exports = (function () {
       get() {
         const lifxGet = _(this).get;
         if (!lifxGet) {
-          console.warn('Call init() first to use "get".');
+          console.warn(getWarningMsgNotInitialized('get'));
           return {
             all() {},
             light() {},
@@ -269,7 +314,7 @@ module.exports = (function () {
       get() {
         const lifxPower = _(this).power;
         if (!lifxPower) {
-          console.warn('Call init() first to use "power".');
+          console.warn(getWarningMsgNotInitialized('power'));
           return {
             all() {},
             light() {},
@@ -285,7 +330,7 @@ module.exports = (function () {
       get() {
         const lifxColor = _(this).color;
         if (!lifxColor) {
-          console.warn('Call init() first to use "color".');
+          console.warn(getWarningMsgNotInitialized('color'));
           return {
             all() {},
             light() {},
@@ -301,7 +346,7 @@ module.exports = (function () {
       get() {
         const lifxScene = _(this).scene;
         if (!lifxScene) {
-          console.warn('Call init() first to use "scene".');
+          console.warn(getWarningMsgNotInitialized('scene'));
           return {
             activate() {}
           }

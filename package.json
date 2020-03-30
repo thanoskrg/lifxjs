@@ -7,10 +7,12 @@
   "author": "Thanos Karagiannis",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon"
+    "build": "npm run webpack:prod && npm run copy-d-ts",
+    "copy-d-ts": "node scripts/copy-to-dist.js",
+    "webpack:prod": "webpack --env.production"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
+    "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
