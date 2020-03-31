@@ -1,11 +1,19 @@
 {
   "name": "@thanoskrg/lifxjs",
   "version": "1.0.0",
-  "description": "JavaScript library for LIFX HTTP API",
+  "description": "A light-weight JavaScript library for using LIFX HTTP API",
   "main": "index.js",
   "types": "index.d.ts",
   "repository": "https://github.com/thanoskrg/lifxjs.git",
   "author": "Thanos Karagiannis <hey@maestros.io>",
+  "keywords": [
+    "lifx",
+    "lifxjs",
+    "javascript",
+    "node",
+    "http",
+    "api"
+  ],
   "license": "MIT",
   "scripts": {
     "build": "npm run webpack:prod && npm run copy-d-ts",
