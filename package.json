@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "JavaScript library for LIFX HTTP API",
   "main": "index.js",
-  "typings": "index.d.ts",
+  "types": "index.d.ts",
   "repository": "https://github.com/thanoskrg/lifxjs.git",
-  "author": "Thanos Karagiannis",
+  "author": "Thanos Karagiannis <hey@maestros.io>",
   "license": "MIT",
   "scripts": {
     "build": "npm run webpack:prod && npm run copy-d-ts",

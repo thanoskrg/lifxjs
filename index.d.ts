@@ -1,18 +1,21 @@
-declare module "lifxjs" {
+export = LifxJS;
 
-  class Lifx {
-    init(config: LifxLibInit): void;
-    get:   LifxLibGet;
-    power: LifxLibPower;
-    color: LifxLibColor;
-    scene: LifxLibScene;
-  }
+declare class LifxJS {
+  constructor();
+  init(opts: LifxJS.LifxJSInitOptions): void;
+  get: LifxJS.LifxJSGet;
+  power: LifxJS.LifxJSPower;
+  color: LifxJS.LifxJSColor;
+  scene: LifxJS.LifxJSScene;
+}
 
-  interface LifxLibInit {
+declare namespace LifxJS {
+
+  interface LifxJSInitOptions {
     appToken: string;
   }
 
-  interface LifxLibGet {
+  interface LifxJSGet {
     all(): Promise<Array<LifxLight>>;
     light(id: string): Promise<Array<LifxLight>>;
     group(id: string): Promise<Array<LifxLight>>;
@@ -20,23 +23,24 @@ declare module "lifxjs" {
     scenes(): Promise<Array<LifxScene>>;
   }
 
-  interface LifxLibPower {
-    all(power: LifxPower): LifxLibPowerResult;
-    light(id: string, power: LifxPower): LifxLibPowerResult;
-    group(id: string, power: LifxPower): LifxLibPowerResult;
-    location(id: string, power: LifxPower): LifxLibPowerResult;
+  interface LifxJSPower {
+    all(power: LifxPower): LifxJSPowerResult;
+    light(id: string, power: LifxPower): LifxJSPowerResult;
+    group(id: string, power: LifxPower): LifxJSPowerResult;
+    location(id: string, power: LifxPower): LifxJSPowerResult;
   }
 
-  interface LifxLibPowerResult extends Promise<LifxSetStateResponse> {}
+  interface LifxJSPowerResult extends Promise<LifxSetStateResponse> {}
 
-  interface LifxLibColor {
-    all(config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
-    light(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
-    group(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
-    location(id: string, config: LifxLibColorConfig, wakeup?: boolean): LifxLibColorResult;
+  interface LifxJSColor {
+    all(config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
+    light(id: string, config: LifxJSColorConfig): LifxJSColorResult;
+    light(id: string, config: LifxJSColorConfig, wakeup: boolean): LifxJSColorResult;
+    group(id: string, config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
+    location(id: string, config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
   }
 
-  interface LifxLibColorConfig {
+  interface LifxJSColorConfig {
     hex?: string;
     rgb?: string;
     hue?: number;
@@ -45,13 +49,13 @@ declare module "lifxjs" {
     kelvin?: number;
   }
 
-  interface LifxLibColorResult extends Promise<LifxSetStateResponse> {}
+  interface LifxJSColorResult extends Promise<LifxSetStateResponse> {}
 
-  interface LifxLibScene {
-    activate(uuid: string): LifxLibSceneResult;
+  interface LifxJSScene {
+    activate(uuid: string): LifxJSSceneResult;
   }
 
-  interface LifxLibSceneResult extends Promise<LifxSetStateResponse> {}
+  interface LifxJSSceneResult extends Promise<LifxSetStateResponse> {}
 
   interface LifxSetStateResponse {
     results: Array<LifxSetStateResponseResultItem>;
@@ -164,6 +168,4 @@ declare module "lifxjs" {
   type LifxEffect = "OFF" | "MORPH" | "MOVE";
 
   type LifxReachabilityStatus = "ok" | "timed_out" | "offline";
-
-  export default Lifx;
 }
