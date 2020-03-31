@@ -14,13 +14,13 @@ To use `lifxjs`, you need to [obtain a valid OAuth 2 access token](https://api.d
 Install with npm:
 
 ```bash
-npm install --save lifxjs
+npm install --save @thanoskrg/lifxjs
 ```
 
 Install with yarn:
 
 ```bash
-yarn add lifxjs
+yarn add @thanoskrg/lifxjs
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ yarn add lifxjs
 ### Import
 
 ```javascript
-const Lifx = require('lifxjs');
+const Lifx = require('@thanoskrg/lifxjs');
 ```
 
 ### Initialize
