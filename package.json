@@ -1,5 +1,5 @@
 {
-  "name": "lifxjs",
+  "name": "@thanoskrg/lifxjs",
   "version": "1.0.0",
   "description": "JavaScript library for LIFX HTTP API",
   "main": "index.js",
