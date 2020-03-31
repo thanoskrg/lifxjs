@@ -171,7 +171,7 @@ module.exports = (function () {
       if (hex) {
         colorSelector.push(String(hex).toUpperCase());
       } else if (rgb) {
-        colorSelector.push(String(rgb).toLowerCase());
+        colorSelector.push('rgb:' + String(rgb));
       } else {
         if (hue) {
           colorSelector.push('hue:' + String(hue));
