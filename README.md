@@ -14,13 +14,13 @@ To use `lifxjs`, you need to [obtain a valid OAuth 2 access token](https://api.d
 Install with npm:
 
 ```bash
-npm install --save @thanoskrg/lifxjs
+npm install --save lifxjs
 ```
 
 Install with yarn:
 
 ```bash
-yarn add @thanoskrg/lifxjs
+yarn add lifxjs
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ yarn add @thanoskrg/lifxjs
 ### Import
 
 ```javascript
-const Lifx = require('@thanoskrg/lifxjs');
+const Lifx = require('lifxjs');
 ```
 
 ### Initialize
@@ -156,8 +156,6 @@ Please note when using `LifxColorConfig`:
 | activate(uuid) | uuid: `string` | [Activate Scene](https://api.developer.lifx.com/docs/activate-scene) |
 
 ## Roadmap
-- Add `eslint` config
-- Fix `package.json` so it can be deployed
 - Write tests
 
 ## Contributing

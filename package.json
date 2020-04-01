@@ -1,5 +1,5 @@
 {
-  "name": "@thanoskrg/lifxjs",
+  "name": "lifxjs",
   "version": "1.0.0",
   "description": "A light-weight JavaScript library for using LIFX HTTP API",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "keywords": [
     "lifx",
     "lifxjs",
+    "lifxapi",
     "javascript",
     "node",
     "http",
@@ -18,9 +19,12 @@
   "scripts": {
     "build": "npm run webpack:prod && npm run copy-d-ts",
     "copy-d-ts": "node scripts/copy-to-dist.js",
+    "eslint": "eslint index.js",
+    "eslint-fix": "eslint index.js --fix",
     "webpack:prod": "webpack --env.production"
   },
   "devDependencies": {
+    "eslint": "^6.8.0",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
