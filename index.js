@@ -79,31 +79,31 @@ module.exports = (function () {
 
     function LifxGet () {}
 
-    LifxGet.prototype.all = async function () {
+    LifxGet.prototype.all = function () {
       return http.get(
         GET_LIGHTS_URL + LIGHT_SELECTOR.ALL
       );
     };
 
-    LifxGet.prototype.light = async function (id) {
+    LifxGet.prototype.light = function (id) {
       return http.get(
         GET_LIGHTS_URL + LIGHT_SELECTOR.LIGHT_ID + id
       );
     };
 
-    LifxGet.prototype.group = async function (id) {
+    LifxGet.prototype.group = function (id) {
       return http.get(
         GET_LIGHTS_URL + LIGHT_SELECTOR.GROUP_ID + id
       );
     };
 
-    LifxGet.prototype.location = async function (id) {
+    LifxGet.prototype.location = function (id) {
       return http.get(
         GET_LIGHTS_URL + LIGHT_SELECTOR.LOCATION_ID + id
       );
     };
 
-    LifxGet.prototype.scenes = async function () {
+    LifxGet.prototype.scenes = function () {
       return http.get(GET_SCENES_URL);
     };
 
@@ -115,41 +115,41 @@ module.exports = (function () {
 
     function LifxColor () {}
 
-    LifxColor.prototype.all = async function (
+    LifxColor.prototype.all = function (
       config,
       wakeup
     ) {
-      return await set_color_state(
+      return set_color_state(
         LIGHT_SELECTOR.ALL, config, wakeup
       );
     };
 
-    LifxColor.prototype.light = async function (
+    LifxColor.prototype.light = function (
       id,
       config,
       wakeup
     ) {
-      return await set_color_state(
+      return set_color_state(
         LIGHT_SELECTOR.LIGHT_ID + id, config, wakeup
       );
     };
 
-    LifxColor.prototype.group = async function (
+    LifxColor.prototype.group = function (
       id,
       config,
       wakeup
     ) {
-      return await set_color_state(
+      return set_color_state(
         LIGHT_SELECTOR.GROUP_ID + id, config, wakeup
       );
     };
 
-    LifxColor.prototype.location = async function (
+    LifxColor.prototype.location = function (
       id,
       config,
       wakeup
     ) {
-      return await set_color_state(
+      return set_color_state(
         LIGHT_SELECTOR.LOCATION_ID + id, config, wakeup
       );
     };
@@ -190,12 +190,12 @@ module.exports = (function () {
       return colorSelector;
     }
 
-    async function set_color_state (selector, color, wakeup = true) {
+    function set_color_state (selector, color, wakeup = true) {
       const data = {
         color: get_color_selector(color)
       };
       if (wakeup) data['power'] = 'on';
-      return await http.put(
+      return http.put(
         endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`),
         data
       );
@@ -209,24 +209,24 @@ module.exports = (function () {
 
     function LifxPower () {}
 
-    LifxPower.prototype.all = async function (power) {
-      return await set_power_state(LIGHT_SELECTOR.ALL, power);
+    LifxPower.prototype.all = function (power) {
+      return set_power_state(LIGHT_SELECTOR.ALL, power);
     };
 
-    LifxPower.prototype.light = async function (id, power) {
-      return await set_power_state(LIGHT_SELECTOR.LIGHT_ID + id, power);
+    LifxPower.prototype.light = function (id, power) {
+      return set_power_state(LIGHT_SELECTOR.LIGHT_ID + id, power);
     };
 
-    LifxPower.prototype.group = async function (id, power) {
-      return await set_power_state(LIGHT_SELECTOR.GROUP_ID + id, power);
+    LifxPower.prototype.group = function (id, power) {
+      return set_power_state(LIGHT_SELECTOR.GROUP_ID + id, power);
     };
 
-    LifxPower.prototype.location = async function (id, power) {
-      return await set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, power);
+    LifxPower.prototype.location = function (id, power) {
+      return set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, power);
     };
 
-    async function set_power_state (selector, power) {
-      return await http.put(
+    function set_power_state (selector, power) {
+      return http.put(
         endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`),
         { power }
       );
@@ -240,8 +240,8 @@ module.exports = (function () {
 
     function LifxScene () {}
 
-    LifxScene.prototype.activate = async function (uuid) {
-      return await http.put(
+    LifxScene.prototype.activate = function (uuid) {
+      return http.put(
         endpoint(LIFX_API_PATH.SCENES + `/scene_id:${uuid}/activate`)
       );
     };
