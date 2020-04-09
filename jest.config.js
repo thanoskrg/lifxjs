@@ -1,4 +1,4 @@
-const LIFX_API = require('./config.json');
+const { LIFX_API } = require('./config.json');
 
 module.exports = {
   "moduleNameMapper": {
