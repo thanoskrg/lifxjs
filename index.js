@@ -1,11 +1,7 @@
 const superagent = require('superagent');
+const { LIFX_API } = require('./config.json');
 
 module.exports = (function () {
-
-  const LIFX_API = {
-    BASE_URL: 'https://api.lifx.com',
-    VERSION:  1,
-  };
 
   const LIFX_API_PATH = {
     LIGHTS: '/lights',
@@ -185,8 +181,8 @@ module.exports = (function () {
         if (brightness) {
           colorSelector.push('brightness:' + String(brightness));
         }
-        colorSelector = colorSelector.join(' ');
       }
+      colorSelector = colorSelector.join(' ');
       return colorSelector;
     }
 

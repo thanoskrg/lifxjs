@@ -1,5 +1,4 @@
-const Lifx = require('../../index');
-const { APP_TOKEN_VALID } = require('../fixtures/appToken');
+const Lifx = require('lifxjs');
 const {
   expectLifxGetInterface,
   expectLifxPowerInterface,
@@ -29,9 +28,15 @@ describe('Lifx.API', () => {
     expect(typeof lifx.init).toBe('function');
   });
 
+  it('should warn on ".init()" without "appToken"', () => {
+    lifx.init();
+    const expectedMsg = 'Missing "appToken" to initialize Lifx.';
+    expect(warnSpy).toHaveBeenCalledWith(expectedMsg);
+  });
+
   describe('Before Initialization', () => {
 
-    afterAll(() => warnSpy.mockClear());
+    beforeEach(warnSpy.mockClear);
 
     it('should have ".get" property', () => {
       const lifxGet = lifx.get;
@@ -66,8 +71,10 @@ describe('Lifx.API', () => {
   describe('After Initialization', () => {
 
     beforeAll(() => lifx.init({
-      appToken: APP_TOKEN_VALID
+      appToken: 'APP_TOKEN'
     }));
+
+    beforeEach(warnSpy.mockClear);
 
     it('should have ".get" property', () => {
       const lifxGet = lifx.get;

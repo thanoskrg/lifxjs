@@ -7,6 +7,10 @@ Features:
   - Introduce unit tests.
   - Introduce integration tests.
 
+Fix:
+
+  - Properly handle case when `lifx.color` gets called with `hex` or `rbg` parameters.
+
 Improvements:
 
   - Remove not needed `async` - `await` from *LifxGet*, *LifxPower*, *LifxColor* & *LifxScene* component functions.
