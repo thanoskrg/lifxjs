@@ -65,13 +65,12 @@ describe('Lifx.API', () => {
       const expectedMsg = getWarningMessage('scene');
       expect(warnSpy).toHaveBeenCalledWith(expectedMsg);
     });
-
   });
 
   describe('After Initialization', () => {
 
     beforeAll(() => lifx.init({
-      appToken: 'APP_TOKEN'
+      appToken: APP_TOKEN
     }));
 
     beforeEach(warnSpy.mockClear);
@@ -99,7 +98,5 @@ describe('Lifx.API', () => {
       expectLifxSceneInterface(lifxScene);
       expect(warnSpy).not.toHaveBeenCalled();
     });
-
   });
-
 });
