@@ -163,13 +163,13 @@ Please note when using `LifxColorConfig`:
 
 Run tests once:
 
-```bash
+```
 yarn test
 ```
 
 Run tests with *watch* option
 
-```bash
+```
 yarn test:watch
 ```
 
