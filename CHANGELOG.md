@@ -1,6 +1,6 @@
 # CHANGELOG.md
 
-## 1.0.1 (unreleased)
+## 1.0.1 (2020-04-10)
 
 Fix:
 
