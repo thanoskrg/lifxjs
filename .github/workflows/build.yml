@@ -17,12 +17,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: build ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: install
     - run: yarn
+    - name: build
     - run: yarn build
+    - name: test
     - run: yarn test
       env:
         CI: true
