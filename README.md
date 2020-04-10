@@ -156,7 +156,22 @@ Please note when using `LifxColorConfig`:
 | activate(uuid) | uuid: `string` | [Activate Scene](https://api.developer.lifx.com/docs/activate-scene) |
 
 ## Roadmap
-- Write tests
+
+- Add support for effects.
+
+## Run Tests
+
+Run tests once:
+
+```
+yarn test
+```
+
+Run tests with *watch* option
+
+```
+yarn test:watch
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

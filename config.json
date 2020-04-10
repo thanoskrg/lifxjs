@@ -1,0 +1,6 @@
+{
+  "LIFX_API": {
+    "BASE_URL": "https://api.lifx.com",
+    "VERSION":  1
+  }
+}
