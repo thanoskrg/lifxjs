@@ -7,12 +7,9 @@ const {
 } = require('./expectations/api');
 
 describe('Lifx.API', () => {
-  const warnSpy = jest.spyOn(console,'warn')
-    .mockImplementation();
+  const warnSpy = jest.spyOn(console, 'warn').mockImplementation();
 
-  const getWarningMessage = prop => (
-    `Call init() first to use "${prop}".`
-  );
+  const getWarningMessage = prop => `Call init() first to use "${prop}".`;
 
   it('exports Lifx', () => {
     expect(typeof Lifx).toBe('function');
@@ -35,7 +32,6 @@ describe('Lifx.API', () => {
   });
 
   describe('Before Initialization', () => {
-
     beforeEach(warnSpy.mockClear);
 
     it('should have ".get" property', () => {
@@ -68,10 +64,11 @@ describe('Lifx.API', () => {
   });
 
   describe('After Initialization', () => {
-
-    beforeAll(() => lifx.init({
-      appToken: APP_TOKEN
-    }));
+    beforeAll(() =>
+      lifx.init({
+        appToken: APP_TOKEN
+      })
+    );
 
     beforeEach(warnSpy.mockClear);
 

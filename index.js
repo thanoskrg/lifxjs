@@ -2,30 +2,28 @@ const superagent = require('superagent');
 const { LIFX_API } = require('./config.json');
 
 module.exports = (function () {
-
   const LIFX_API_PATH = {
     LIGHTS: '/lights',
     SCENES: '/scenes'
   };
 
   const LIGHT_SELECTOR = {
-    ALL:         'all',
-    LIGHT_ID:    'id:',
-    GROUP_ID:    'group_id:',
+    ALL: 'all',
+    LIGHT_ID: 'id:',
+    GROUP_ID: 'group_id:',
     LOCATION_ID: 'location_id:'
   };
 
-  function endpoint (resource = '') {
+  function endpoint(resource = '') {
     return `${LIFX_API.BASE_URL}/v${LIFX_API.VERSION}${resource}`;
   }
 
   let http;
 
   const HttpClient = (function () {
-
     let _headers;
 
-    function request (method, url, data = null) {
+    function request(method, url, data = null) {
       return new Promise(resolve => {
         try {
           superagent(method, url)
@@ -48,7 +46,7 @@ module.exports = (function () {
       });
     }
 
-    function HttpClient ({ headers = {} }) {
+    function HttpClient({ headers = {} }) {
       _headers = headers;
     }
 
@@ -65,38 +63,28 @@ module.exports = (function () {
     };
 
     return HttpClient;
-
-  }());
+  })();
 
   const LifxGet = (function () {
-
     const GET_LIGHTS_URL = endpoint(LIFX_API_PATH.LIGHTS + '/');
     const GET_SCENES_URL = endpoint(LIFX_API_PATH.SCENES);
 
-    function LifxGet () {}
+    function LifxGet() {}
 
     LifxGet.prototype.all = function () {
-      return http.get(
-        GET_LIGHTS_URL + LIGHT_SELECTOR.ALL
-      );
+      return http.get(GET_LIGHTS_URL + LIGHT_SELECTOR.ALL);
     };
 
     LifxGet.prototype.light = function (id) {
-      return http.get(
-        GET_LIGHTS_URL + LIGHT_SELECTOR.LIGHT_ID + id
-      );
+      return http.get(GET_LIGHTS_URL + LIGHT_SELECTOR.LIGHT_ID + id);
     };
 
     LifxGet.prototype.group = function (id) {
-      return http.get(
-        GET_LIGHTS_URL + LIGHT_SELECTOR.GROUP_ID + id
-      );
+      return http.get(GET_LIGHTS_URL + LIGHT_SELECTOR.GROUP_ID + id);
     };
 
     LifxGet.prototype.location = function (id) {
-      return http.get(
-        GET_LIGHTS_URL + LIGHT_SELECTOR.LOCATION_ID + id
-      );
+      return http.get(GET_LIGHTS_URL + LIGHT_SELECTOR.LOCATION_ID + id);
     };
 
     LifxGet.prototype.scenes = function () {
@@ -104,53 +92,28 @@ module.exports = (function () {
     };
 
     return LifxGet;
-
-  }());
+  })();
 
   const LifxColor = (function () {
+    function LifxColor() {}
 
-    function LifxColor () {}
-
-    LifxColor.prototype.all = function (
-      config,
-      wakeup
-    ) {
-      return set_color_state(
-        LIGHT_SELECTOR.ALL, config, wakeup
-      );
+    LifxColor.prototype.all = function (config, wakeup) {
+      return set_color_state(LIGHT_SELECTOR.ALL, config, wakeup);
     };
 
-    LifxColor.prototype.light = function (
-      id,
-      config,
-      wakeup
-    ) {
-      return set_color_state(
-        LIGHT_SELECTOR.LIGHT_ID + id, config, wakeup
-      );
+    LifxColor.prototype.light = function (id, config, wakeup) {
+      return set_color_state(LIGHT_SELECTOR.LIGHT_ID + id, config, wakeup);
     };
 
-    LifxColor.prototype.group = function (
-      id,
-      config,
-      wakeup
-    ) {
-      return set_color_state(
-        LIGHT_SELECTOR.GROUP_ID + id, config, wakeup
-      );
+    LifxColor.prototype.group = function (id, config, wakeup) {
+      return set_color_state(LIGHT_SELECTOR.GROUP_ID + id, config, wakeup);
     };
 
-    LifxColor.prototype.location = function (
-      id,
-      config,
-      wakeup
-    ) {
-      return set_color_state(
-        LIGHT_SELECTOR.LOCATION_ID + id, config, wakeup
-      );
+    LifxColor.prototype.location = function (id, config, wakeup) {
+      return set_color_state(LIGHT_SELECTOR.LOCATION_ID + id, config, wakeup);
     };
 
-    function get_color_selector ({
+    function get_color_selector({
       hex,
       rgb,
       hue,
@@ -186,7 +149,7 @@ module.exports = (function () {
       return colorSelector;
     }
 
-    function set_color_state (selector, color, wakeup = true) {
+    function set_color_state(selector, color, wakeup = true) {
       const data = {
         color: get_color_selector(color)
       };
@@ -198,12 +161,10 @@ module.exports = (function () {
     }
 
     return LifxColor;
-
-  }());
+  })();
 
   const LifxPower = (function () {
-
-    function LifxPower () {}
+    function LifxPower() {}
 
     LifxPower.prototype.all = function (power) {
       return set_power_state(LIGHT_SELECTOR.ALL, power);
@@ -221,20 +182,17 @@ module.exports = (function () {
       return set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, power);
     };
 
-    function set_power_state (selector, power) {
-      return http.put(
-        endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`),
-        { power }
-      );
+    function set_power_state(selector, power) {
+      return http.put(endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`), {
+        power
+      });
     }
 
     return LifxPower;
-
-  }());
+  })();
 
   const LifxScene = (function () {
-
-    function LifxScene () {}
+    function LifxScene() {}
 
     LifxScene.prototype.activate = function (uuid) {
       return http.put(
@@ -243,25 +201,22 @@ module.exports = (function () {
     };
 
     return LifxScene;
-
-  }());
+  })();
 
   const Lifx = (function () {
-
-    function getWarningMsgNotInitialized (name) {
+    function getWarningMsgNotInitialized(name) {
       return `Call init() first to use "${name}".`;
     }
 
     let $private = {};
     let __$$id__ = 0;
-    function _ (_this, store = null) {
+    function _(_this, store = null) {
       return store
-        ? $private[_this.__$$id__] = store
-        : $private[_this.__$$id__]
-      ;
+        ? ($private[_this.__$$id__] = store)
+        : $private[_this.__$$id__];
     }
 
-    function Lifx () {
+    function Lifx() {
       this.__$$id__ = __$$id__++;
       _(this, {});
     }
@@ -271,7 +226,7 @@ module.exports = (function () {
         http = new HttpClient({
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${config.appToken}`
+            Authorization: `Bearer ${config.appToken}`
           }
         });
         _(this, {
@@ -348,9 +303,7 @@ module.exports = (function () {
     });
 
     return Lifx;
-
-  }());
+  })();
 
   return Lifx;
-
-}());
+})();

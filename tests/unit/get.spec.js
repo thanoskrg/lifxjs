@@ -1,14 +1,12 @@
 const superagent = require('superagent');
 const Lifx = require('lifxjs');
 const mockRequest = require('../mock/request');
-const { expectRequestHeaders } = require('./expectations/request')
+const { expectRequestHeaders } = require('./expectations/request');
 
 jest.mock('superagent');
-const {
-  headers,
-  payload,
-  request
-} = mockRequest.mockImplementation(superagent);
+const { headers, payload, request } = mockRequest.mockImplementation(
+  superagent
+);
 
 const getLightsMockResponse = require('fixtures/getLightsResponse.json');
 const getScenesMockResponse = require('fixtures/getScenesResponse.json');

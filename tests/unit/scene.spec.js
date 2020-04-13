@@ -4,11 +4,9 @@ const mockRequest = require('../mock/request');
 const { expectRequestHeaders } = require('./expectations/request');
 
 jest.mock('superagent');
-const {
-  headers,
-  payload,
-  request
-} = mockRequest.mockImplementation(superagent);
+const { headers, payload, request } = mockRequest.mockImplementation(
+  superagent
+);
 
 const setSceneMockResponse = require('fixtures/setSceneResponse.json');
 

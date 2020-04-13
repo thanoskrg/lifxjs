@@ -1,40 +1,45 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'commonjs': true,
-    'es6': true,
-    'node': true
+  env: {
+    browser: true,
+    commonjs: true,
+    es6: true,
+    node: true,
+    jest: true
   },
-  'extends': 'eslint:recommended',
-  'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly'
+  extends: [
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
+  globals: {
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly"
   },
-  'parserOptions': {
-    'ecmaVersion': 2018
+  parserOptions: {
+    ecmaVersion: 2018
   },
-  'rules': {
-    'indent': [
-      'error',
+  plugins: ["prettier"],
+  rules: {
+    "indent": [
+      "error",
       2
     ],
-    'linebreak-style': [
-      'error',
-      'unix'
+    "linebreak-style": [
+      "error",
+      "unix"
     ],
-    'max-len': [
-      'warn',
+    "max-len": [
+      "warn",
       {
-        'code': 80
+        code: 80
       }
     ],
-    'quotes': [
-      'error',
-      'single'
-    ],
-    'semi': [
-      'error',
-      'always'
+    "semi": [
+      "error",
+      "always"
     ]
+  },
+  globals: {
+    "APP_TOKEN": true,
+    "LIFX_API_URL": true
   }
 };

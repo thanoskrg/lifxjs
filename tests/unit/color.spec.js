@@ -4,18 +4,15 @@ const mockRequest = require('../mock/request');
 const { expectRequestHeaders } = require('./expectations/request');
 
 jest.mock('superagent');
-const {
-  headers,
-  payload,
-  request
-} = mockRequest.mockImplementation(superagent);
+const { headers, payload, request } = mockRequest.mockImplementation(
+  superagent
+);
 
 const setStateMockResponse = require('fixtures/setStateResponse.json');
 
 describe('Lifx.color', () => {
-  const SET_STATE_URL = selector => (
-    LIFX_API_URL + '/lights/' + selector + '/state'
-  );
+  const SET_STATE_URL = selector =>
+    LIFX_API_URL + '/lights/' + selector + '/state';
 
   let lifx;
   let result;
@@ -81,11 +78,14 @@ describe('Lifx.color', () => {
    *  */
   test('.group()', async () => {
     const groupId = '06e3ec50395511e9a0757200055bf1c0';
-    result = await lifx.color.group(groupId, {
-      hue: 273.65,
-      saturation: 0.5
-    },
-    false);
+    result = await lifx.color.group(
+      groupId,
+      {
+        hue: 273.65,
+        saturation: 0.5
+      },
+      false
+    );
     // check request payload - "power" shouldn't be set since "wakeup: false"
     expect(payload).toHaveBeenCalledWith({
       color: 'hue:273.65 saturation:0.5'
