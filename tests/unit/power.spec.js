@@ -4,11 +4,9 @@ const mockRequest = require('../mock/request');
 const { expectRequestHeaders } = require('./expectations/request');
 
 jest.mock('superagent');
-const {
-  headers,
-  payload,
-  request
-} = mockRequest.mockImplementation(superagent);
+const { headers, payload, request } = mockRequest.mockImplementation(
+  superagent
+);
 
 const setStateMockResponse = require('fixtures/setStateResponse.json');
 
@@ -21,9 +19,8 @@ describe('Lifx.power', () => {
    * it will be sent to the LIFX HTTP API as is.
    * */
   const POWER_STATE = 'on';
-  const SET_STATE_URL = selector => (
-    LIFX_API_URL + '/lights/' + selector + '/state'
-  );
+  const SET_STATE_URL = selector =>
+    LIFX_API_URL + '/lights/' + selector + '/state';
 
   let lifx;
   let result;

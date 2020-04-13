@@ -19,15 +19,18 @@
   "scripts": {
     "build": "npm run webpack:prod && npm run copy-d-ts",
     "copy-d-ts": "node scripts/copy-to-dist.js",
-    "eslint": "eslint index.js",
-    "eslint-fix": "eslint index.js --fix",
+    "lint": "eslint index.js tests",
+    "lint:fix": "eslint index.js tests --fix",
     "test": "jest --verbose",
     "test:watch": "jest --watch --verbose",
     "webpack:prod": "webpack --env.production"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.3",
     "jest": "^25.2.4",
+    "prettier": "2.0.4",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

@@ -3,7 +3,7 @@
  * */
 const mockImplementation = mock => {
   const send = jest.fn();
-  const set  = jest.fn(() => ({ send }));
+  const set = jest.fn(() => ({ send }));
   mock.mockImplementation(() => ({ set }));
   return {
     headers: set,
