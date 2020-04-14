@@ -73,7 +73,7 @@ lifx.init({ appToken: 'APP_TOKEN' });
   // ...or turn all the lights off instead
   await lifx.power.all('off');
 
-}());
+})();
 ```
 
 ### Get and Activate your favorite Scene
@@ -92,7 +92,7 @@ lifx.init({ appToken: 'APP_TOKEN' });
   // activate the scene
   await lifx.scene.activate(movieScene.uuid);
 
-}());
+})();
 ```
 
 ### API
