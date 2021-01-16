@@ -49,7 +49,8 @@ describe('Lifx.color', () => {
     // check request payload
     expect(payload).toHaveBeenCalledWith({
       color: '#FF0000',
-      power: 'on'
+      power: 'on',
+      duration: 1
     });
     const expectedURL = SET_STATE_URL('all');
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
@@ -66,7 +67,8 @@ describe('Lifx.color', () => {
     // check request payload
     expect(payload).toHaveBeenCalledWith({
       color: 'rgb:255,255,0',
-      power: 'on'
+      power: 'on',
+      duration: 1
     });
     const expectedURL = SET_STATE_URL('id:' + lightId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
@@ -88,7 +90,8 @@ describe('Lifx.color', () => {
     );
     // check request payload - "power" shouldn't be set since "wakeup: false"
     expect(payload).toHaveBeenCalledWith({
-      color: 'hue:273.65 saturation:0.5'
+      color: 'hue:273.65 saturation:0.5',
+      duration: 1
     });
     const expectedURL = SET_STATE_URL('group_id:' + groupId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
@@ -106,7 +109,8 @@ describe('Lifx.color', () => {
     // check request payload
     expect(payload).toHaveBeenCalledWith({
       color: 'kelvin:3500 brightness:0.8',
-      power: 'on'
+      power: 'on',
+      duration: 1
     });
     const expectedURL = SET_STATE_URL('location_id:' + locationId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
