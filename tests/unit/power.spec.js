@@ -43,10 +43,6 @@ describe('Lifx.power', () => {
   afterEach(() => {
     // check headers
     expectRequestHeaders(headers, APP_TOKEN);
-    // check request payload
-    expect(payload).toHaveBeenCalledWith({
-      power: POWER_STATE
-    });
     // check response
     expect(result).toBe(setStateMockResponse);
   });
@@ -55,13 +51,21 @@ describe('Lifx.power', () => {
     result = await lifx.power.all(POWER_STATE);
     const expectedURL = SET_STATE_URL('all');
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
+    expect(payload).toHaveBeenCalledWith({
+      power: POWER_STATE,
+      duration: 1
+    });
   });
 
   test('.light()', async () => {
     const lightId = 'd073d5141876';
-    result = await lifx.power.light(lightId, POWER_STATE);
+    result = await lifx.power.light(lightId, POWER_STATE, 5);
     const expectedURL = SET_STATE_URL('id:' + lightId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
+    expect(payload).toHaveBeenCalledWith({
+      power: POWER_STATE,
+      duration: 5
+    });
   });
 
   test('.group()', async () => {
@@ -69,6 +73,10 @@ describe('Lifx.power', () => {
     result = await lifx.power.group(groupId, POWER_STATE);
     const expectedURL = SET_STATE_URL('group_id:' + groupId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
+    expect(payload).toHaveBeenCalledWith({
+      power: POWER_STATE,
+      duration: 1
+    });
   });
 
   test('.location()', async () => {
@@ -76,5 +84,9 @@ describe('Lifx.power', () => {
     result = await lifx.power.location(locationId, POWER_STATE);
     const expectedURL = SET_STATE_URL('location_id:' + locationId);
     expect(superagent).toHaveBeenCalledWith('PUT', expectedURL);
+    expect(payload).toHaveBeenCalledWith({
+      power: POWER_STATE,
+      duration: 1
+    });
   });
 });

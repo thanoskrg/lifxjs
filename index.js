@@ -97,20 +97,20 @@ module.exports = (function () {
   const LifxColor = (function () {
     function LifxColor() {}
 
-    LifxColor.prototype.all = function (config, wakeup) {
-      return set_color_state(LIGHT_SELECTOR.ALL, config, wakeup);
+    LifxColor.prototype.all = function (...args) {
+      return set_color_state(LIGHT_SELECTOR.ALL, ...args);
     };
 
-    LifxColor.prototype.light = function (id, config, wakeup) {
-      return set_color_state(LIGHT_SELECTOR.LIGHT_ID + id, config, wakeup);
+    LifxColor.prototype.light = function (id, ...args) {
+      return set_color_state(LIGHT_SELECTOR.LIGHT_ID + id, ...args);
     };
 
-    LifxColor.prototype.group = function (id, config, wakeup) {
-      return set_color_state(LIGHT_SELECTOR.GROUP_ID + id, config, wakeup);
+    LifxColor.prototype.group = function (id, ...args) {
+      return set_color_state(LIGHT_SELECTOR.GROUP_ID + id, ...args);
     };
 
-    LifxColor.prototype.location = function (id, config, wakeup) {
-      return set_color_state(LIGHT_SELECTOR.LOCATION_ID + id, config, wakeup);
+    LifxColor.prototype.location = function (id, ...args) {
+      return set_color_state(LIGHT_SELECTOR.LOCATION_ID + id, ...args);
     };
 
     function get_color_selector({
@@ -149,9 +149,10 @@ module.exports = (function () {
       return colorSelector;
     }
 
-    function set_color_state(selector, color, wakeup = true) {
+    function set_color_state(selector, color, wakeup = true, duration = 1) {
       const data = {
-        color: get_color_selector(color)
+        color: get_color_selector(color),
+        duration
       };
       if (wakeup) data['power'] = 'on';
       return http.put(
@@ -166,25 +167,26 @@ module.exports = (function () {
   const LifxPower = (function () {
     function LifxPower() {}
 
-    LifxPower.prototype.all = function (power) {
-      return set_power_state(LIGHT_SELECTOR.ALL, power);
+    LifxPower.prototype.all = function (...args) {
+      return set_power_state(LIGHT_SELECTOR.ALL, ...args);
     };
 
-    LifxPower.prototype.light = function (id, power) {
-      return set_power_state(LIGHT_SELECTOR.LIGHT_ID + id, power);
+    LifxPower.prototype.light = function (id, ...args) {
+      return set_power_state(LIGHT_SELECTOR.LIGHT_ID + id, ...args);
     };
 
-    LifxPower.prototype.group = function (id, power) {
-      return set_power_state(LIGHT_SELECTOR.GROUP_ID + id, power);
+    LifxPower.prototype.group = function (id, ...args) {
+      return set_power_state(LIGHT_SELECTOR.GROUP_ID + id, ...args);
     };
 
-    LifxPower.prototype.location = function (id, power) {
-      return set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, power);
+    LifxPower.prototype.location = function (id, ...args) {
+      return set_power_state(LIGHT_SELECTOR.LOCATION_ID + id, ...args);
     };
 
-    function set_power_state(selector, power) {
+    function set_power_state(selector, power, duration = 1) {
       return http.put(endpoint(LIFX_API_PATH.LIGHTS + `/${selector}/state`), {
-        power
+        power,
+        duration
       });
     }
 
