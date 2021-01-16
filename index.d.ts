@@ -10,7 +10,6 @@ declare class LifxJS {
 }
 
 declare namespace LifxJS {
-
   interface LifxJSInitOptions {
     appToken: string;
   }
@@ -24,20 +23,42 @@ declare namespace LifxJS {
   }
 
   interface LifxJSPower {
-    all(power: LifxPower): LifxJSPowerResult;
-    light(id: string, power: LifxPower): LifxJSPowerResult;
-    group(id: string, power: LifxPower): LifxJSPowerResult;
-    location(id: string, power: LifxPower): LifxJSPowerResult;
+    all(power: LifxPower, duration?: number): LifxJSPowerResult;
+    light(id: string, power: LifxPower, duration?: number): LifxJSPowerResult;
+    group(id: string, power: LifxPower, duration?: number): LifxJSPowerResult;
+    location(
+      id: string,
+      power: LifxPower,
+      duration?: number
+    ): LifxJSPowerResult;
   }
 
   interface LifxJSPowerResult extends Promise<LifxSetStateResponse> {}
 
   interface LifxJSColor {
-    all(config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
-    light(id: string, config: LifxJSColorConfig): LifxJSColorResult;
-    light(id: string, config: LifxJSColorConfig, wakeup: boolean): LifxJSColorResult;
-    group(id: string, config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
-    location(id: string, config: LifxJSColorConfig, wakeup?: boolean): LifxJSColorResult;
+    all(
+      config: LifxJSColorConfig,
+      wakeup?: boolean,
+      duration?: number
+    ): LifxJSColorResult;
+    light(
+      id: string,
+      config: LifxJSColorConfig,
+      wakeup?: boolean,
+      duration?: number
+    ): LifxJSColorResult;
+    group(
+      id: string,
+      config: LifxJSColorConfig,
+      wakeup?: boolean,
+      duration?: number
+    ): LifxJSColorResult;
+    location(
+      id: string,
+      config: LifxJSColorConfig,
+      wakeup?: boolean,
+      duration?: number
+    ): LifxJSColorResult;
   }
 
   interface LifxJSColorConfig {
@@ -163,9 +184,9 @@ declare namespace LifxJS {
     selector: string;
   }
 
-  type LifxPower = "on" | "off";
+  type LifxPower = 'on' | 'off';
 
-  type LifxEffect = "OFF" | "MORPH" | "MOVE";
+  type LifxEffect = 'OFF' | 'MORPH' | 'MOVE';
 
-  type LifxReachabilityStatus = "ok" | "timed_out" | "offline";
+  type LifxReachabilityStatus = 'ok' | 'timed_out' | 'offline';
 }
