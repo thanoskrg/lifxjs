@@ -1,4 +1,5 @@
 # lifxjs
+
 A light-weight JavaScript library for using [LIFX HTTP API](https://api.developer.lifx.com).
 
 ## Description
@@ -42,7 +43,6 @@ lifx.init({ appToken: 'APP_TOKEN' });
 
 ```javascript
 (async function () {
-
   // get all lights for the given access token
   const lights = await lifx.get.all();
 
@@ -67,12 +67,11 @@ lifx.init({ appToken: 'APP_TOKEN' });
     brightness: 1
   });
 
-  // turn it off when you're finished...
+  // turn it off when the job is done...
   await lifx.power.light(officeBulb.id, 'off');
 
   // ...or turn all the lights off instead
   await lifx.power.all('off');
-
 })();
 ```
 
@@ -80,7 +79,6 @@ lifx.init({ appToken: 'APP_TOKEN' });
 
 ```javascript
 (async function () {
-
   // get all scenes for the given access token
   const scenes = await lifx.get.scenes();
 
@@ -91,7 +89,6 @@ lifx.init({ appToken: 'APP_TOKEN' });
 
   // activate the scene
   await lifx.scene.activate(movieScene.uuid);
-
 })();
 ```
 
@@ -102,36 +99,36 @@ lifx.init({ appToken: 'APP_TOKEN' });
 To initialize the library and then be able to use the features, you first have to invoke `.init()` and pass `options` object as a parameter with the following properties:
 
 | Property           | Details                                                                                 |
-| -----------------  | --------------------------------------------------------------------------------------- |
+| ------------------ | --------------------------------------------------------------------------------------- |
 | appToken: `string` | [How to obtain a LIFX Oauth2 Token](https://api.developer.lifx.com/docs/authentication) |
 
 ### `lifx.get`
 
-| Method        | Parameters   | Response                                                       |
-| ------------- | ------------ | -------------------------------------------------------------- |
-| all()         | None         | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
-| light(id)     | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
-| group(id)     | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
-| location(id)  | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
-| scenes()      | None         | [List Scenes](https://api.developer.lifx.com/docs/list-scenes) |
+| Method       | Parameters   | Response                                                       |
+| ------------ | ------------ | -------------------------------------------------------------- |
+| all()        | None         | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
+| light(id)    | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
+| group(id)    | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
+| location(id) | id: `string` | [List Lights](https://api.developer.lifx.com/docs/list-lights) |
+| scenes()     | None         | [List Scenes](https://api.developer.lifx.com/docs/list-scenes) |
 
 ### `lifx.power`
 
-| Method               | Parameters                                       | Response                                                   |
-| -------------------- | ------------------------------------------------ | ---------------------------------------------------------- |
-| all(status)          | status: `'on'` &#124; `'off'`                    | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| light(id, status)    | id: `string` <br/> status: `'on'` &#124; `'off'` | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| group(id, status)    | id: `string` <br/> status: `'on'` &#124; `'off'` | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| location(id, status) | id: `string` <br/> status: `'on'` &#124; `'off'` | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| Method                          | Parameters                                                                               | Response                                                   |
+| ------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| all(status, duration?)          | status: `'on'` &#124; `'off'` <br/> duration: `number` (default: `1`)                    | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| light(id, status, duration?)    | id: `string` <br/> status: `'on'` &#124; `'off'` <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| group(id, status, duration?)    | id: `string` <br/> status: `'on'` &#124; `'off'` <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| location(id, status, duration?) | id: `string` <br/> status: `'on'` &#124; `'off'` <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
 
 ### `lifx.color`
 
-| Method                       | Parameters                                                                             | Response                                                   |
-| ---------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| all(color, wakeup?)          | color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`)                     | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| light(id, color, wakeup?)    | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| group(id, color, wakeup?)    | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
-| location(id, color, wakeup?) | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| Method                                  | Parameters                                                                                                                     | Response                                                   |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| all(color, wakeup?, duration?)          | color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) <br/> duration: `number` (default: `1`)                     | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| light(id, color, wakeup?, duration?)    | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| group(id, color, wakeup?, duration?)    | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
+| location(id, color, wakeup?, duration?) | id: `string` <br /> color: `LifxColorConfig` <br/> wakeup: `boolean` (default: `true`) <br/> duration: `number` (default: `1`) | [Set State](https://api.developer.lifx.com/docs/set-state) |
 
 The `LifxColorConfig` may have the following properties:
 
@@ -167,16 +164,18 @@ Run tests once:
 yarn test
 ```
 
-Run tests with *watch* option
+Run tests with _watch_ option
 
 ```
 yarn test:watch
 ```
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
