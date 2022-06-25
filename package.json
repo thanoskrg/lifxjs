@@ -17,25 +17,38 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "npm run webpack:prod && npm run copy-d-ts",
-    "copy-d-ts": "node scripts/copy-to-dist.js",
-    "lint": "eslint index.js tests",
-    "lint:fix": "eslint index.js tests --fix",
+    "build": "tsc",
     "test": "jest --verbose",
     "test:watch": "jest --watch --verbose",
-    "webpack:prod": "webpack --env.production"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-prettier": "^3.1.3",
-    "jest": "^25.2.4",
-    "prettier": "2.0.4",
-    "terser-webpack-plugin": "^2.3.5",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^8.0.1",
+    "jest": "^28.1.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
   },
-  "dependencies": {
-    "superagent": "^5.2.2"
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.+(js|ts|tsx)": [
+      "eslint --rule '@typescript-eslint/no-unused-vars: error'"
+    ]
   }
 }
